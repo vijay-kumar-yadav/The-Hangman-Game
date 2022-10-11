@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+      integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <script src="./api.js"></script>
+    <style>
+      .box {
+        border: 2px solid;
+        padding: 5px;
+      }
+      label {
+        /* display: block; */
+        margin: 10px;
+      }
+      label.radio {
+        cursor: pointer;
+      }
+
+      label.radio input {
+        position: absolute;
+        top: 0;
+        left: 0;
+        visibility: hidden;
+        pointer-events: none;
+      }
+
+      label.radio span {
+        padding: 4px;
+        border: 1px solid red;
+        display: inline-block;
+        color: red;
+        width: 150px;
+        height: fit-content;
+        text-align: center;
+        border-radius: 3px;
+        margin-top: 7px;
+        text-transform: uppercase;
+      }
+
+      label.radio input:checked + span {
+        border-color: red;
+        background-color: red;
+        color: #fff;
+      }
+
+      .inputField {
+        width: 30px;
+        outline: none;
+        border-radius: 20%;
+      }
+      input[type="text"]:disabled {
+        background-color: white;
+        font-weight: bolder;
+      }
+      /* #chanceLeft {
+        display: flex;
+        justify-content: right;
+      } */
+    </style>
+  </head>
+  <body>
+    <div class="box d-flex justify-content-center bg-danger">
+      <div class="bg-primary">
+        <h2 class="text-center">Guess Game</h2>
+        <div class="bg-warning">
+          <p class="text-left definition"></p>
+          <p class="text-left partOfSpeech"></p>
+        </div>
+        <div class="text-center mb-1 bg-secondary">
+          <button class="btn btn-info">Hint</button>
+          <!-- <p class="chanceLeftDiv">8</p> -->
+        </div>
+        <div class="container bg-warning text-center p-2 bg-white">
+          <img
+            src="images\-1.jpg"
+            alt="hangman"
+            id="hangmanImage"
+            style="height: 200px"
+          />
+        </div>
+        <div class="container bg-warning text-center p-2" id="guessInp"></div>
+      </div>
+    </div>
+  </body>
+  <script>
+    function setHangmanImage(count) {
+      console.log(count);
+      if (count == "" && isNaN(count)) {
+        count = "-1";
+      }
+      $("#hangmanImage").attr("src", "./images/" + count + ".jpg");
+    }
+    function alphaOnly(event) {
+      var key = event.keyCode;
+      console.log(key);
+      return (key >= 65 && key <= 90) || (key >= 97 && key <= 122);
+    }
+    function createBlank(placeHolder, id) {
+      let disable = true;
+      // if (placeHolder == "") disable = false;
+      var guessInput = $("<input/>")
+        .attr("type", "text")
+        .attr("id", "guess" + id)
+        .attr("maxlength", "1")
+        .attr("minlength", "1")
+        .attr("disabled", disable)
+        .val(placeHolder)
+        .keyup((event) => {
+          if (!alphaOnly(event)) {
+            $("#guess" + id).val("");
+          }
+        })
+        .addClass(
+          "inputField text-center m-1 border-top-0 border-left-0 border-right-0 border-dark"
+        );
+
+      $("#guessInp").append(guessInput);
+    }
+
+    function myRandomInts(quantity, max) {
+      const arr = [];
+      while (arr.length < quantity) {
+        var candidateInt = Math.trunc(Math.random() * max);
+        if (arr.indexOf(candidateInt) === -1) arr.push(candidateInt);
+      }
+      return arr;
+    }
+    function createInput(word, blanks) {
+      // let blankIndex = myRandomInts(blanks, word.length).sort();
+      for (let i = 0; i < word.length; i++) {
+        // if (blankIndex.includes(i)) {
+        //   createBlank("", i);
+        // } else {
+        //   createBlank(word[i], i);
+        // }
+        createBlank("", i);
+      }
+    }
+    var word;
+    async function main(length) {
+      let data = await fetchWordAndDefinition(length);
+      if (data == null) {
+        alert("word not found");
+      }
+      data = data[0];
+      word = data.word;
+      let definition = data.meanings[0].definitions[0].definition;
+      let partOfSpeech = data.meanings[0].partOfSpeech;
+      $(".definition").text("Definition: " + definition);
+      $(".partOfSpeech").text("Part of speech: " + partOfSpeech);
+      console.log(data);
+      // console.log(definition, partOfSpeech);
+      createInput(word);
+    }
+    var wordSize = 5;
+    main(wordSize);
+    var imageIndex = 0;
+    var inputLetterCount = 0;
+    document.onkeypress = (e) => {
+      if (word.includes(e.key)) {
+        console.log(e.key, e);
+        let indexes = [];
+        let i = 0;
+        while (i < word.length) {
+          if (e.key == word[i]) {
+            indexes.push(i);
+          }
+          i++;
+        }
+        for (let letterIndex of indexes) {
+          // console.log("--> " + inputLetterCount);
+
+          if (
+            (e.keyCode >= 65 && e.keyCode <= 90) ||
+            (e.keyCode >= 97 && e.keyCode <= 122)
+          ) {
+            $("#guess" + letterIndex).val(e.key);
+
+            inputLetterCount++;
+          }
+
+          if (inputLetterCount == wordSize) {
+            alert("Congrats!");
+          }
+        }
+      } else {
+        // console.log(imageIndex);
+        if (
+          (e.keyCode >= 65 && e.keyCode <= 90) ||
+          (e.keyCode >= 97 && e.keyCode <= 122)
+        ) {
+          setHangmanImage(imageIndex);
+
+          imageIndex++;
+          if (imageIndex == 8) {
+            alert("Game Over");
+          }
+        }
+        // console.log("--->" + imageIndex);
+      }
+    };
+    $(".btn").click(() => {
+      console.log("Hurray!");
+    });
+  </script>
+</html>
