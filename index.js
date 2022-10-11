@@ -1,0 +1,1 @@
+$("input[name='category']").change((e) => { console.log(e.target.value) })

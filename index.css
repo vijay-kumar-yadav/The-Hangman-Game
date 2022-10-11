@@ -1,0 +1,31 @@
+.outer{
+    padding: 5vmin;
+}
+
+.categoryOption label{
+    background-color: aqua;
+    width: 50%;
+    cursor: pointer;
+}
+input{
+    display: none;
+}
+
+.outer {
+    display: table;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+  }
+  
+  .middle {
+    display: table-cell;
+    vertical-align: middle;
+  }
+
+
+input[type="radio"]:checked+label{ 
+    background-color: blue;
+ } 
