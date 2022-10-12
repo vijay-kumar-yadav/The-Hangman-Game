@@ -1,17 +1,18 @@
-.outer{
-    padding: 5vmin;
+
+.btn:focus {
+  box-shadow: none !important;
 }
 
 .categoryOption label{
-    background-color: aqua;
     width: 50%;
     cursor: pointer;
 }
-input{
+input[type='radio']{
     display: none;
 }
 
 .outer {
+     padding: 5vmin;
     display: table;
     position: absolute;
     top: 0;
@@ -27,5 +28,16 @@ input{
 
 
 input[type="radio"]:checked+label{ 
-    background-color: blue;
+   background-color: blue;
  } 
+
+ /* game Window */
+ .inputField {
+  width: 30px;
+  outline: none;
+  border-radius: 20%;
+}
+input[type="text"]:disabled {
+  background-color: white;
+  font-weight: bolder;
+}
