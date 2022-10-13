@@ -1,4 +1,5 @@
-@import url(https://fonts.googleapis.com/css?family=Titillium+Web:400,200);
+@import url('https://fonts.googleapis.com/css?family=Titillium+Web:400,200');
+@import url('https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Roboto&display=swap');
 body {
 	margin:0;
 	padding:0;
@@ -37,6 +38,8 @@ background-color:cadetblue;
     /* border: solid var(--lite); */
   }
   .heading{
+    text-align: center;
+    font-family: 'Amatic SC', cursive;
     color: var(--lite);
   }
   .inner{  
@@ -107,7 +110,7 @@ background-color:cadetblue;
   }
   .btn:hover{
     color: var(--lite);
-    font-weight: bold;
+    /* font-weight: bold; */
   }
   .start,.home{
     width: 120px;
