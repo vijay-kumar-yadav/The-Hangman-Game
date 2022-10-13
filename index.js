@@ -76,6 +76,29 @@ function myRandomInts(max) {
     return Math.trunc(Math.random() * max);
 }
 function windowGAME(select) {
+    //game window
+    var zoneA = $("<div></div>").attr("class", "text-center zoneA");
+
+
+    for (let i = 65; i < 91; i++) {
+        let alphavalue = String.fromCharCode(i);
+        let btn = $("<input></input")
+            .attr("type", "button")
+            .attr("id", alphavalue)
+            .attr("value", alphavalue)
+            .attr("class", "btn")
+            .css("border-color", "black")
+            .css("margin", "2px")
+            .css("width", "50px")
+            .css("border-radius", "0px");
+        let event = {
+            "key": alphavalue,
+            "keyCode": i
+        }
+        btn.click(() => keyPress(event));
+        zoneA.append(btn);
+    }
+    $(".alphabets").append(zoneA);
     $("#chanceLeftP").text("Left Guess : " + 9);
     console.log("win " + winCount + " total " + totalCount);
     $(".wonCount").text(winCount + " / " + totalCount);
@@ -97,14 +120,16 @@ function resetGameWindow() {
     aleadyGuessInput = []
     setHangmanImage(imageIndex);
     $(".guessDiv").remove();
+    $(".zoneA").remove();
     windowGAME(select);
 
 }
-document.onkeypress = (e) => {
+function keyPress(e) {
     //check div exist or not
     if (aleadyGuessInput.includes(e.key.toLowerCase()))
         return;
     if ($(' .guessDiv').length) {
+        $("#" + (e.key.toUpperCase())).attr("disabled", true);
         // alphabet input
         if (
             (e.keyCode >= 65 && e.keyCode <= 90) ||
@@ -174,4 +199,7 @@ document.onkeypress = (e) => {
     else {
         return;
     }
+}
+document.onkeypress = (e) => {
+    keyPress(e);
 };
