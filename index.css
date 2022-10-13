@@ -1,43 +1,112 @@
+@import url(https://fonts.googleapis.com/css?family=Titillium+Web:400,200);
+body {
+	margin:0;
+	padding:0;
+  font-family: 'Titillium Web',sans-serif;
 
-.btn:focus {
-  box-shadow: none !important;
 }
 
-.categoryOption label{
-    width: 50%;
-    cursor: pointer;
-}
-input[type='radio']{
-    display: none;
+:root {
+
+  --primaryColor : #00A8FF;
+  --primaryColorTr : #00aaff51;
+  --primaryPlus : #047A9D;
+  --primaryBg : #eee;
+  --lite : #fff;
 }
 
 .outer {
-     padding: 5vmin;
+  padding: 20vh;
     display: table;
     position: absolute;
     top: 0;
     left: 0;
     height: 100%;
     width: 100%;
+    background-image: url("https://c4.wallpaperflare.com/wallpaper/1012/64/860/art-black-and-white-black-and-white-castle-wallpaper-preview.jpg");
+      /* Full height */
+  height: 100%;
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
   }
   
   .middle {
     display: table-cell;
     vertical-align: middle;
+    /* border: solid var(--lite); */
   }
+  .heading{
+    color: var(--lite);
+  }
+  .inner{
+    padding: 25px;
+    background-color: var(--primaryBg);
+  }
+  /* menu Window */
+  
+  .categoryOption label{
+      width: 50%;
+      cursor: pointer;
+    }
+    input[type='radio']{
+      display: none;
+    }
+    
+  .subHead{
+    color: var(--primaryPlus);
+    
+  }
+  input[type="radio"]:checked+label{ 
+    background-color: var(--primaryColor);
+    color: #eee;
+    padding: 5px;
+  } 
+  
+  /* game Window */
+  .inputField {
+    width: 30px;
+    outline: none;
+    border-radius: 20%;
+  }
+  input[type="text"]:disabled {
+    background-color: white;
+    font-weight: bolder;
+  }
+  #scoreBoard {
+    display: flex;
+    justify-content: center;
+    background-color: var(--primaryColorTr);
+  }
+  .won {
+    padding: 10px;
+    width: 50%;
+    text-align: center;
+    color: #fff;
+    border-right: 1px solid var(--primaryColor);
+  }
+  .lost {
+    padding: 10px;
+    width: 50%;
 
-
-input[type="radio"]:checked+label{ 
-   background-color: blue;
- } 
-
- /* game Window */
- .inputField {
-  width: 30px;
-  outline: none;
-  border-radius: 20%;
-}
-input[type="text"]:disabled {
-  background-color: white;
-  font-weight: bolder;
-}
+    color: #fff;
+    text-align: center;
+    border-left: 1px solid var(--primaryColor);
+  }
+  /* menu window */
+  .btn:focus {
+    box-shadow: none !important;
+  }
+  .btn:hover{
+    color: var(--lite);
+    font-weight: bold;
+  }
+  .start,.home{
+    width: 120px;
+    background-color: #00A8FF;
+    border-radius: 0px;
+    color: #fff;
+    
+} 

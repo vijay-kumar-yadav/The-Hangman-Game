@@ -22,13 +22,13 @@
   </head>
   <body>
     <div class="outer">
-      <div class="middle head bg-primary">
-        <h3 class="text-center">Hangman Game</h3>
-        <div class="container bg-info inner">
+      <div class="middle head">
+        <h3 class="text-center heading">Hangman Game</h3>
+        <div class="container inner">
           <!-- Menu window -->
           <div class="startWindow">
-            <h5 class="subHead text-center">SELECT A CATEGORY</h5>
-            <div class="categoryOption text-center mt-2">
+            <h5 class="subHead text-center mb-5">SELECT A CATEGORY</h5>
+            <div class="categoryOption text-center">
               <input type="radio" name="category" id="input1" value="HTML" />
               <label for="input1" class="text-left"> HTML </label>
             </div>
@@ -45,9 +45,35 @@
               />
               <label for="input3" class="text-left"> JAVASCRIPT </label>
             </div>
-            <div class="d-flex justify-content-center p-2">
-              <button class="btn btn-warning start">Start</button>
+            <div class="d-flex justify-content-center mt-3">
+              <button class="btn start">Start Game</button>
             </div>
+          </div>
+          <!-- Game window -->
+          <div class="gameWindow">
+            <h5 class="text-center gameHead mb-4"></h5>
+            <div class="d-flex justify-content-center">
+              <img
+                src=""
+                alt="hangman"
+                id="hangmanImage"
+                style="height: 200px"
+              />
+            </div>
+            <div
+              class="p-2 text-center guessInp d-flex justify-content-center"
+            ></div>
+            <div class="d-flex justify-content-center p-2">
+              <button class="btn home">Home</button>
+            </div>
+          </div>
+        </div>
+        <div id="scoreBoard">
+          <div class="won">
+            <div>Won : <span class="wonCount">0</span></div>
+          </div>
+          <div class="lost">
+            <div>Lost : <span class="lostCount">0</span></div>
           </div>
         </div>
       </div>
