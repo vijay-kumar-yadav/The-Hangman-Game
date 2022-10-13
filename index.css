@@ -12,6 +12,7 @@ body {
   --primaryColorTr : #00aaff51;
   --primaryPlus : #047A9D;
   --primaryBg : #eee;
+  --primaryBgTr : rgba(238, 238, 238, 0.704);
   --lite : #fff;
 }
 
@@ -23,19 +24,16 @@ body {
     left: 0;
     height: 100%;
     width: 100%;
-    background-image: url("https://c4.wallpaperflare.com/wallpaper/1012/64/860/art-black-and-white-black-and-white-castle-wallpaper-preview.jpg");
-      /* Full height */
-  height: 100%;
+background-color:cadetblue;  
 
-  /* Center and scale the image nicely */
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
+
   }
   
   .middle {
     display: table-cell;
     vertical-align: middle;
+    /* background-color: aqua; */
+    width:min-content ;
     /* border: solid var(--lite); */
   }
   .heading{
@@ -43,7 +41,9 @@ body {
   }
   .inner{
     padding: 25px;
-    background-color: var(--primaryBg);
+  
+
+    background-color: var(--primaryBgTr);
   }
   /* menu Window */
   
@@ -56,7 +56,7 @@ body {
     }
     
   .subHead{
-    color: var(--primaryPlus);
+    color: var(--primaryColor);
     
   }
   input[type="radio"]:checked+label{ 
@@ -75,26 +75,34 @@ body {
     background-color: white;
     font-weight: bolder;
   }
+  .chanceLeftSpan{
+    float: right; 
+  }
+  #chanceLeftP{
+    background-color: #eee;
+    padding: 10px;
+    font-weight: bold;
+    text-align: center;
+    width: fit-content;
+  }
+  /* .scoreBoardDiv{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }  */
   #scoreBoard {
     display: flex;
     justify-content: center;
-    background-color: var(--primaryColorTr);
+
   }
   .won {
     padding: 10px;
-    width: 50%;
-    text-align: center;
+    background-color: var(--primaryColorTr);
     color: #fff;
-    border-right: 1px solid var(--primaryColor);
+    
+    /* border-right: 1px solid var(--primaryColor); */
   }
-  .lost {
-    padding: 10px;
-    width: 50%;
 
-    color: #fff;
-    text-align: center;
-    border-left: 1px solid var(--primaryColor);
-  }
   /* menu window */
   .btn:focus {
     box-shadow: none !important;

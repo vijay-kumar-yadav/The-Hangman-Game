@@ -1,3 +1,5 @@
+var winCount = 0;
+var totalCount = 0;
 //start window js
 var select = "";
 $(".gameWindow").hide();
@@ -8,17 +10,15 @@ $(".start").click(() => {
     $(".gameWindow").show();
     $(".startWindow").hide();
     $(".gameWindow").focus();
-    imageIndex = 1
-    setHangmanImage(imageIndex);
-    windowGAME(select);
+    resetGameWindow();
     console.log(select)
+
 })
 $(".home").click(() => {
 
     $(".startWindow").show();
     $(".gameWindow").hide();
-    $(".guessDiv").remove();
-
+    // $(".guessDiv").remove();
 })
 // game window js
 function setHangmanImage(count) {
@@ -57,10 +57,13 @@ function createBlank(placeHolder, id) {
 }
 
 
+var inputLetterCount = 0;
 function createInput(word, blanks) {
     for (let i = 0; i < word.length; i++) {
-        if (["-", "@", ":"].includes(word[i]))
+        if (["-", "@", ":"].includes(word[i])) {
+            inputLetterCount++;
             createBlank(word[i], i);
+        }
         else {
             createBlank("", i);
 
@@ -73,6 +76,9 @@ function myRandomInts(max) {
     return Math.trunc(Math.random() * max);
 }
 function windowGAME(select) {
+    $("#chanceLeftP").text("Left Guess : " + 9);
+    console.log("win " + winCount + " total " + totalCount);
+    $(".wonCount").text(winCount + " / " + totalCount);
     fetch("words.json").then((response) => response.json()).then((data) => {
         word = data[select][myRandomInts(data[select].length)];
         $(".gameHead").text("GUESS: " + select)
@@ -84,16 +90,34 @@ function windowGAME(select) {
 }
 
 var imageIndex = 1;
-var inputLetterCount = 0;
+var aleadyGuessInput = [];
+function resetGameWindow() {
+    imageIndex = 1;
+    inputLetterCount = 0;
+    aleadyGuessInput = []
+    setHangmanImage(imageIndex);
+    $(".guessDiv").remove();
+    windowGAME(select);
+
+}
 document.onkeypress = (e) => {
     //check div exist or not
+    if (aleadyGuessInput.includes(e.key.toLowerCase()))
+        return;
     if ($(' .guessDiv').length) {
         // alphabet input
+        if (
+            (e.keyCode >= 65 && e.keyCode <= 90) ||
+            (e.keyCode >= 97 && e.keyCode <= 122)
+        )
+            aleadyGuessInput.push(e.key);
         console.log("-->" + String.fromCharCode(eval(e.keyCode + 32)));
         if (word.includes(e.key) || word.includes("" + String.fromCharCode(eval(e.keyCode + 32)))) {
             // console.log(e.key, e);
+
             let indexes = [];
             let i = 0;
+
             while (i < word.length) {
                 if ((e.key == word[i]) || ("" + String.fromCharCode(eval(e.keyCode + 32))) == word[i]) {
                     // console.log("yo")
@@ -102,11 +126,12 @@ document.onkeypress = (e) => {
                 i++;
             }
             for (let letterIndex of indexes) {
+                // aleadyGuessInput.push(word[letterIndex])
 
                 if
                     (e.keyCode >= 65 && e.keyCode <= 90) {
                     $("#guess" + letterIndex).val(e.key);
-
+                    console.log(e.key);
                     inputLetterCount++;
                 }
                 if (e.keyCode >= 97 && e.keyCode <= 122) {
@@ -114,25 +139,39 @@ document.onkeypress = (e) => {
 
                     inputLetterCount++;
                 }
-
                 // if (inputLetterCount == wordSize) {
                 //     alert("Congrats!");
                 // }
-            }
-        } else {
-            if (
-                (e.keyCode >= 65 && e.keyCode <= 90) ||
-                (e.keyCode >= 97 && e.keyCode <= 122)
-            ) {
-                setHangmanImage(imageIndex);
+                // console.log(inputLetterCount)
+                if (inputLetterCount == word.length) {
+                    console.log("won");
+                    winCount++;
+                    totalCount++;
+                    resetGameWindow();
 
-                imageIndex++;
-                // if (imageIndex == 8) {
-                //     alert("Game Over");
-                // }
+
+                }
+                // console.log(aleadyGuessInput)
+
+            }
+        } else if (
+            (e.keyCode >= 65 && e.keyCode <= 90) ||
+            (e.keyCode >= 97 && e.keyCode <= 122)
+        ) {
+            setHangmanImage(imageIndex);
+
+            $("#chanceLeftP").text("Left Guess : " + eval(9 - imageIndex));
+            imageIndex++;
+            console.log(imageIndex)
+
+            if (imageIndex == 10) {
+                totalCount++;
+                console.log("lose");
+                resetGameWindow();
             }
         }
-    } else {
+    }
+    else {
         return;
     }
 };
