@@ -17,7 +17,7 @@ body {
 }
 
 .outer {
-  padding: 20vh;
+  /* padding: 20vh; */
     display: table;
     position: absolute;
     top: 0;
@@ -39,10 +39,7 @@ background-color:cadetblue;
   .heading{
     color: var(--lite);
   }
-  .inner{
-    padding: 25px;
-  
-
+  .inner{  
     background-color: var(--primaryBgTr);
   }
   /* menu Window */
@@ -63,6 +60,7 @@ background-color:cadetblue;
     background-color: var(--primaryColor);
     color: #eee;
     padding: 5px;
+    width: 50%;
   } 
   
   /* game Window */
