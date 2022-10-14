@@ -99,7 +99,7 @@ function windowGAME(select) {
         zoneA.append(btn);
     }
     $(".alphabets").append(zoneA);
-    $("#chanceLeftP").text("Left Guess : " + 9);
+    $("#chanceLeftP").text("Left Guess : " + 7);
     console.log("win " + winCount + " total " + totalCount);
     $(".wonCount").text(winCount + " / " + totalCount);
     fetch("words.json").then((response) => response.json()).then((data) => {
@@ -185,11 +185,11 @@ function keyPress(e) {
         ) {
             setHangmanImage(imageIndex);
 
-            $("#chanceLeftP").text("Left Guess : " + eval(9 - imageIndex));
+            $("#chanceLeftP").text("Left Guess : " + eval(7 - imageIndex));
             imageIndex++;
             console.log(imageIndex)
 
-            if (imageIndex == 10) {
+            if (imageIndex == 7) {
                 totalCount++;
                 console.log("lose");
                 resetGameWindow();
