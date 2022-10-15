@@ -119,3 +119,45 @@ background-color:cadetblue;
     color: #fff;
     
 } 
+/* result css */
+.new-game-popup {
+  background-color: rgba(255, 255, 255, 0.768);
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  border-radius: 0.6em;
+}
+/* .hide {
+  display: none;
+} */
+#result-text h2 {
+  font-size: 1.8em;
+  text-align: center;
+}
+#result-text p {
+  font-size: 1.25em;
+  margin: 1em 0 2em 0;
+}
+#result-text span {
+  font-weight: 600;
+}
+#new-game-button {
+  font-size: 1.25em;
+  padding: 0.5em 1em;
+  /* border: 3px solid #6229f2; */
+  border: none;
+  color: #fff;
+  /* border-radius: 0.2em; */
+}
+.win-msg {
+  color: #39d78d;
+}
+.lose-msg {
+  color: #fe5152;
+}

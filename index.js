@@ -102,6 +102,8 @@ function windowGAME(select) {
     $("#chanceLeftP").text("Left Guess : " + 7);
     console.log("win " + winCount + " total " + totalCount);
     $(".wonCount").text(winCount + " / " + totalCount);
+    $(".hide").hide()
+
     fetch("words.json").then((response) => response.json()).then((data) => {
         word = data[select][myRandomInts(data[select].length)];
         $(".gameHead").text("GUESS: " + select)
@@ -170,9 +172,10 @@ function keyPress(e) {
                 // console.log(inputLetterCount)
                 if (inputLetterCount == word.length) {
                     console.log("won");
+                    $(".hide").show()
+                    document.getElementById("result-text").innerHTML = `<h2 class='win-msg'>You Win!!</h2><p>The word was <span>${word}</span></p>`;
                     winCount++;
                     totalCount++;
-                    resetGameWindow();
 
 
                 }
@@ -190,9 +193,11 @@ function keyPress(e) {
             console.log(imageIndex)
 
             if (imageIndex == 7) {
+                $(".hide").show();
+
+                document.getElementById("result-text").innerHTML = `<h2 class='lose-msg'>You Lose!!</h2><p>The word was <span>${word}</span></p>`;
                 totalCount++;
                 console.log("lose");
-                resetGameWindow();
             }
         }
     }
@@ -200,7 +205,15 @@ function keyPress(e) {
         return;
     }
 }
+function newGame() {
+    $(".hide").hide();
+    resetGameWindow();
+}
+$("#new-game-button").click(() => newGame())
 document.onkeypress = (e) => {
+    if (imageIndex >= 8 || inputLetterCount == word.length) {
+        return
+    }
     if ((e.keyCode >= 65 && e.keyCode <= 90) ||
         (e.keyCode >= 97 && e.keyCode <= 122))
         keyPress(e);
