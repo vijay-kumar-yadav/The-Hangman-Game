@@ -26,7 +26,6 @@
     "float",
     "border",
     ":hover",
-    "text-decoration",
     ":focus",
     "display",
     "background",

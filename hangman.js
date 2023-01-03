@@ -14,8 +14,21 @@ $(".start").click(() => {
     console.log(select)
 
 })
-$(".home").click(() => {
+function toHomepage() {
+    location.href = "../index.html"
 
+}
+
+$(".home").click(() => {
+    confirm_dialog(
+        "Exit Confirmation",
+        "<p>Are you sure you want to exit?</p>",
+        "toHomepage"
+    );
+
+})
+$(".back").click(() => {
+    $(".wonCount").text(winCount + " / " + totalCount);
     $(".startWindow").show();
     $(".gameWindow").hide();
     // $(".guessDiv").remove();
@@ -30,7 +43,7 @@ function setHangmanImage(count) {
 }
 function alphaOnly(event) {
     var key = event.keyCode;
-    console.log(key);
+    // console.log(key);
     return (key >= 65 && key <= 90) || (key >= 97 && key <= 122);
 }
 function createBlank(placeHolder, id) {
@@ -99,11 +112,10 @@ function windowGAME(select) {
         zoneA.append(btn);
     }
     $(".alphabets").append(zoneA);
-    $("#chanceLeftP").text("Left Guess : " + 7);
+    $("#chanceLeftP").text("Left Guess : " + 6);
     console.log("win " + winCount + " total " + totalCount);
     $(".wonCount").text(winCount + " / " + totalCount);
     $(".hide").hide()
-
     fetch("words.json").then((response) => response.json()).then((data) => {
         word = data[select][myRandomInts(data[select].length)];
         $(".gameHead").text("GUESS: " + select)
@@ -118,27 +130,30 @@ var imageIndex = 1;
 var aleadyGuessInput = [];
 function resetGameWindow() {
     imageIndex = 1;
+    setHangmanImage(imageIndex);
+    imageIndex = 2;
     inputLetterCount = 0;
     aleadyGuessInput = []
-    setHangmanImage(imageIndex);
     $(".guessDiv").remove();
     $(".zoneA").remove();
     windowGAME(select);
 
 }
 function keyPress(e) {
+
+
     //check div exist or not
     if (aleadyGuessInput.includes(e.key.toLowerCase()))
         return;
     if ($(' .guessDiv').length) {
-        $("#" + (e.key.toUpperCase())).attr("disabled", true);
+        $("#" + (e.key.toUpperCase())).attr("disabled", true).css("text-decoration", "line-through");
         // alphabet input
         if (
             (e.keyCode >= 65 && e.keyCode <= 90) ||
             (e.keyCode >= 97 && e.keyCode <= 122)
         )
             aleadyGuessInput.push(e.key);
-        console.log("-->" + String.fromCharCode(eval(e.keyCode + 32)));
+        // console.log("-->" + String.fromCharCode(eval(e.keyCode + 32)));
         if (word.includes(e.key) || word.includes("" + String.fromCharCode(eval(e.keyCode + 32)))) {
             // console.log(e.key, e);
 
@@ -158,7 +173,7 @@ function keyPress(e) {
                 if
                     (e.keyCode >= 65 && e.keyCode <= 90) {
                     $("#guess" + letterIndex).val(e.key);
-                    console.log(e.key);
+                    // console.log(e.key);
                     inputLetterCount++;
                 }
                 if (e.keyCode >= 97 && e.keyCode <= 122) {
@@ -173,6 +188,7 @@ function keyPress(e) {
                 if (inputLetterCount == word.length) {
                     console.log("won");
                     $(".hide").show()
+                    $(".wonCount").text(winCount + " / " + totalCount);
                     document.getElementById("result-text").innerHTML = `<h2 class='win-msg'>You Win!!</h2><p>The word was <span>${word}</span></p>`;
                     winCount++;
                     totalCount++;
@@ -186,13 +202,13 @@ function keyPress(e) {
             (e.keyCode >= 65 && e.keyCode <= 90) ||
             (e.keyCode >= 97 && e.keyCode <= 122)
         ) {
+            console.log(imageIndex)
             setHangmanImage(imageIndex);
 
             $("#chanceLeftP").text("Left Guess : " + eval(7 - imageIndex));
             imageIndex++;
-            console.log(imageIndex)
 
-            if (imageIndex == 7) {
+            if (imageIndex >= 8) {
                 $(".hide").show();
 
                 document.getElementById("result-text").innerHTML = `<h2 class='lose-msg'>You Lose!!</h2><p>The word was <span>${word}</span></p>`;
@@ -205,6 +221,7 @@ function keyPress(e) {
         return;
     }
 }
+
 function newGame() {
     $(".hide").hide();
     resetGameWindow();
@@ -214,8 +231,7 @@ document.onkeypress = (e) => {
     if (imageIndex >= 8 || inputLetterCount == word.length) {
         return
     }
-    if ((e.keyCode >= 65 && e.keyCode <= 90) ||
-        (e.keyCode >= 97 && e.keyCode <= 122))
+    if ((e.keyCode >= 97 && e.keyCode <= 122) || (e.keyCode >= 65 && e.keyCode <= 90))
         keyPress(e);
     else return
 };
